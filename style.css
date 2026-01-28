@@ -129,7 +129,6 @@ body {
     overflow: hidden;
 }
 
-/* Falling Hearts Container inside Login */
 .login-falling-hearts-container {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;

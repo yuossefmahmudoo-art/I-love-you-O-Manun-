@@ -1,151 +1,317 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>هدية حب - Ultimate Edition</title>
+/* --- Configuration & Data --- */
+const CONFIG = {
+    loginPass: '3/11/2004',
+    albumPass: 'I love you',
+    // 9 Placeholder Images (Since Google Drive links don't work in code)
+    // استبدل الروابط القادمة بهذه الروابط التجريبية لتعملين مؤقتاً.
+    // Replace these links with your new direct image links (from Imgur, Catbox, etc.)
+    images: [
+        "https://picsum.photos/id/237/400x400.jpg", // استبدل بصورة 1
+        "https://picsum.photos/id/339/400x400.jpg", // استبدل بصورة 2
+        "https://picsum.photos/id/442/400x400.jpg", // استبدل بصورة 3
+        "https://picsum.photos/id/555/400x400.jpg", // استبدل بصورة 4
+        "https://picsum.photos/id/666/400x400.jpg", // استبدل بصورة 5
+        "https://picsum.photos/id/777/400x400.jpg", // استبدل بصورة 6
+        "https://picsum.photos/id/888/400x400.jpg", // استبدل بصورة 7
+        "https://picsum.photos/id/999/400x400.jpg", // استبدل بصورة 8
+        "https://picsum.photos/id/101/400x400.jpg"  // استبدل بصورة 9
+    ]
+};
+
+const daysMessages = {
+    1: { title: "اليوم الأول: الإيمان", text: "يا أول يوم، أتمنى لك إيمان بلا شك، وقلب رضي عن ربه وعن الدنيا. ربنا يخليكي ليا طول العمر." },
+    2: { title: "اليوم الثاني: الأمل", text: "يا ثاني يوم، الأمل دائم موجود مهما كان الليل قاتم. ضحكتك هي ضوءي وفرحتي هي هدفي في حياتي." },
+    3: { title: "اليوم الثالث: الحب", text: "يا ثالث يوم، الحب هو اللغة اللي نفهمها بلا كلام. بحبك ياقلبي بحب لا ينتهي ولا يبدأ، مجرد حقيقة." },
+    4: { title: "اليوم الرابع: النجاح", text: "يا رابع يوم، النجاح يبدأ بمحاولة بسيطة والانتهاء بتفوق عظيم. أنتي ناجحة لأنك طموحة جداً." },
+    5: { title: "اليوم الخامس: العناية", text: "يا خامس يوم، العناية فيك تعني العناية بنا. ربنا يحفظك ويسترنا في حماه من كل شر." },
+    6: { title: "اليوم السادس: الفرحة", text: "يا سادس يوم، الفرحة الحقيقية هي اللي بتنبع من جوا قلبك مرتاحة بالضماعة. استمتعي بكل لحظة." },
+    7: { title: "اليوم السابع: الحياة", text: "يا سابع يوم، الحياة حلوة لما تكوني بجانب الشخص الصح. أجمل حاجة في حياتي إني شفتك عيني." },
+    8: { title: "اليوم الثامن: الحقيقة", text: "يا ثامن يوم، الحقيقة قاسية لكنها جميلة. أنتي هي الحقيقة اللي ببحث عنها في دنيا كذابة، وبيني وبينك هي الحقيقة الوحيدة." },
+    9: { title: "اليوم التاسع: السعادة", text: "يا تاسع يوم، السعادة مش بديه، هي لحظة بسيطة بتحس بيها أنك كامل. بحبك أنا سعيد ياقلبي، وهذا أغلى سعادة." },
+    10: { title: "اليوم العاشر: الأبدية", text: "يا يوم عاشر، الحب اللي بينا مش له وقت محدود ولا نهاية. أبداً هحبك في كل وقت وفي كل مكان، مهما تغيرت الأيام والليالي." },
+    11: { title: "اليوم الحادي عشر: السلام", text: "يا يوم حادي عشر، السلام هو اللي بينا محقق. معاك الدنيا بتصبح أهدأ والقلب بيرتاح. ربنا يخليكي ليا وتسلمي أمان دنيا وأخرة." },
+    12: { title: "اليوم الثاني عشر: الصبر", text: "يا يوم 12، الصبر مفتاح الفرج، وصبري عليكي هو سر سعادتي. ربنا يلهمك الصبر على كل حلوة." },
+    13: { title: "اليوم الثالث عشر: الأحلام", text: "يا يوم 13، الأحلام بتبقى واقع لما تكوني معاي. انتي حلم اللي عشته وبقى حقيقي." },
+    14: { title: "اليوم الرابع عشر: العشق", text: "يا يوم 14، العشق هو اللي بيحكم قلبي تجاهك. مش بس حب، دي حالة وجدانية مش تفارقني." },
+    15: { title: "اليوم الخامس عشر: الوفاء", text: "يا يوم 15، الوفاء هو الصداقة والحب في آن واحد. ربنا يديم الوفاء بيننا ويخليك أهل ثقتي كل يوم أكتر." },
+    16: { title: "اليوم السادس عشر: الثقة", text: "يا يوم 16، الثقة هي جسر العبور لقلبك. أثق فيكي يا قلبي فوق كل الثقة، وكلي أمل في مستقبلنا مع بعض." },
+    17: { title: "اليوم السابع عشر: القدر", text: "يا يوم 17، قدرك في حياتي هو أجمل ما كتبه الله لي. قابلك مش صدفة، هو القدر الحلو اللي جمعنا." },
     
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    // الأيام الجديدة من 18 إلى 28
+    18: { title: "اليوم الثامن عشر: الدفء", text: "يا يوم 18، في برد الدنيا، أنتي هو الدفء اللي بيدفني. روحك دي حاجة بتنساني إن فيه برد في الدنيا." },
+    19: { title: "اليوم التاسع عشر: الصداقة", text: "يا يوم 19، قبل ما تكوني حبيبتي، أنتي أغلى صديقة في حياتي. الصداقة الأساس اللي بني عليه حبي ليك." },
+    20: { title: "اليوم العشرون: التضحية", text: "يا يوم 20، التضحية الحقيقية هي اللي بتدل إنك بتحب حد لدرجة الإيثار. مستعد أبقى أي حاجة عشان بس تضحكي." },
+    21: { title: "اليوم الواحد والعشرون: الحماية", text: "يا يوم 21، حلمي إني أحميك من كل حاجة زعلتكي في اللي فات. ربنا يخليك في حفظه يا دنيتي." },
+    22: { title: "اليوم الثاني والعشرون: الراحة", text: "يا يوم 22، معاكي بلاقي راحة البال والقلب اللي ملقتهاش مع حد تاني. أنتي ملاذي يا حبيبتي." },
+    23: { title: "اليوم الثالث والعشرون: النور", text: "يا يوم 23، كنت ب.walk في الظلام لحد ما طلعتي في حياتي. أنتي النور اللي بنيي ليا الدروب." },
+    24: { title: "اليوم الرابع والعشرون: اللطف", text: "يا يوم 24، طيبة قلبك ولطف معاملتك دي أغلى ما فيكي. ربنا يحبك يا قلب طيب." },
+    25: { title: "اليوم الخامس والعشرون: الوحدة", text: "يا يوم 25، إحنا مش اتنين، إحنا روح واحدة في جسمين. كل حاجة بتعملها بتحس بيها فيايا." },
+    26: { title: "اليوم السادس والعشرون: الامتنان", text: "يا يوم 26، حمد ربنا كثير إنه خلقك ورزقني بيك. أكتر نعمة في حياتي يا منون." },
+    27: { title: "اليوم السابع والعشرون: المستقبل", text: "يا يوم 27، مستقبلي مش بس هوي، هو مستقبلنا مع بعض. شايفنا قدام بأحلام حلوة وضحكات ملهاش نهاية." },
+    28: { title: "اليوم الثامن والعشرون: الاحتفال", text: "يا يوم 28، كل يوم معاك هو احتفال. ألف مبارك لينا على كل يوم بعدنا وببقى طول العمر معاك." }
+};
 
-    <!-- Background Layers -->
-    <div class="noise-overlay"></div>
-    <canvas id="stars-canvas" class="stars-canvas"></canvas>
-    <div class="floating-hearts-container" id="bg-hearts"></div>
+/* --- Initialization --- */
+document.addEventListener('DOMContentLoaded', () => {
+    initStars();
+    initBackgroundHearts();
+    initImagesGrid();
+    initLoginHearts();
+});
 
-    <!-- Login Screen (Overlay) -->
-    <div id="gift-overlay">
-        <!-- Falling Hearts with M inside -->
-        <div class="login-falling-hearts-container" id="login-falling-hearts"></div>
+/* --- Password System --- */
+function handleEnter(e) { if(e.key === "Enter") checkPassword(); }
+ 
+function checkPassword() {
+    const input = document.getElementById('secret-code');
+    const errorMsg = document.getElementById('error-msg');
+ 
+    if(input.value.trim() === CONFIG.loginPass) {
+        playSound('magic');
+        const overlay = document.getElementById('gift-overlay');
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+ 
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            const audio = document.querySelector('audio');
+            if(audio) audio.play().catch(e => console.log('Auto-play prevented'));
+        }, 1000);
+    } else {
+        playSound('click');
+        errorMsg.classList.add('visible');
+        input.classList.add('shake-anim');
+        setTimeout(() => {
+            input.classList.remove('shake-anim');
+            errorMsg.classList.remove('visible');
+        }, 1500);
+    }
+}
 
-        <div class="logo-container">
-            <div class="letter-y">Y</div>
-            <!-- Modified Logo: Heart with YM -->
-            <div class="heart-logo-wrapper">
-                <i class="fas fa-heart heart-bg-icon"></i>
-                <span class="heart-logo-text">YM</span>
-            </div>
-        </div>
-        <div class="login-container">
-            <div class="pass-title">بحبك ياقلبي....💘M💍</div>
-            <div style="margin-bottom:12px; font-size:0.8rem; color:rgba(255,255,255,0.5);">اكتب الباسورد يا حبيبت قلبي انتي يا منون.....💍💘</div>
-            <input type="text" id="secret-code" placeholder="DD/MM/YYYY" autocomplete="off" onkeypress="handleEnter(event)">
-            <button id="open-btn" onclick="checkPassword()">افتح يا منتي 💍</button>
-            <div id="error-msg" class="error-text">كلمة المرور خاطئة</div>
-        </div>
-    </div>
+/* --- Album Lock System --- */
+function handleAlbumEnter(e) { if(e.key === "Enter") checkAlbumPass(); }
 
-    <!-- Image Modal -->
-    <div id="image-modal" class="modal">
-        <div class="modal-close-img" onclick="closeImageModal()">×</div>
-        <img id="modal-img-display" class="modal-content-img" src="" alt="Memory">
-    </div>
+function checkAlbumPass() {
+    const input = document.getElementById('album-pass');
+    const errorMsg = document.getElementById('album-error');
+    const val = input.value.trim();
+ 
+    if (val.toLowerCase() === CONFIG.albumPass.toLowerCase()) {
+        playSound('magic');
+        const lockWrapper = document.getElementById('memories-lock');
+        const grid = document.getElementById('memories-grid');
+ 
+        lockWrapper.style.transform = 'scale(0.9)';
+        lockWrapper.style.opacity = '0';
+ 
+        setTimeout(() => {
+            lockWrapper.style.display = 'none';
+            grid.style.display = 'grid';
+        },500);
+ 
+    } else {
+        playSound('click');
+        errorMsg.classList.add('visible');
+        input.classList.add('shake-anim');
+        setTimeout(() => {
+            input.classList.remove('shake-anim');
+            errorMsg.classList.remove('visible');
+        }, 1000);
+    }
+}
 
-    <!-- Text Modal -->
-    <div id="text-modal" class="text-modal">
-        <div class="text-modal-content">
-            <span class="text-modal-close" onclick="closeTextModal()">×</span>
-            <h3 class="text-modal-title" id="text-modal-title"></h3>
-            <p class="text-modal-text" id="text-modal-message"></p>
-        </div>
-    </div>
+/* --- Modals --- */
+const imgModal = document.getElementById('image-modal');
+const textModal = document.getElementById('text-modal');
 
-    <!-- Main Content -->
-    <main id="main-content">
-        <header>
-            <h1>يا روح قلبي انتي كل سنه وانتي حب قلبي 2026</h1>
-            <p class="subtitle">قلبي و روحي و دنيتي كله حبيبت قلبي منون.....💘💍</p>
-        </header>
+function openImageModal(src) {
+    document.getElementById('modal-img-display').src = src;
+    imgModal.classList.add('show');
+    playSound('click');
+}
+function closeImageModal() { imgModal.classList.remove('show'); }
+ 
+imgModal.addEventListener('click', (e) => { if (e.target === imgModal) closeImageModal(); });
 
-        <!-- Audio -->
-        <section class="audio-section">
-            <div class="music-note-icon"><i class="fas fa-music"></i></div>
-            <audio controls loop>
-                <source src="https://files.catbox.moe/czweiy.opus" type="audio/ogg">
-                Your browser does not support audio element.
-            </audio>
-            <p style="margin-top:12px; font-size:0.8rem; color:rgba(255,255,255,0.5);">حبيب قلبي منون..... 🎧</p>
-        </section>
+function openTextModal(day) {
+    playSound('magic');
+    document.getElementById('text-modal-title').innerText = daysMessages[day].title;
+    document.getElementById('text-modal-message').innerText = daysMessages[day].text;
+    textModal.style.display = 'flex';
+    setTimeout(() => textModal.classList.add('show'), 10);
+}
+function closeTextModal() {
+    playSound('click');
+    textModal.classList.remove('show');
+    setTimeout(() => textModal.style.display = 'none', 300);
+}
+textModal.addEventListener('click', (e) => { if (e.target === textModal) closeTextModal(); });
 
-        <!-- 17 Days Grid -->
-        <section class="days-grid">
-            <div class="day-card" onclick="openTextModal(1)"><div class="day-number">يوم 1</div><div class="day-icon">🤲</div><div class="day-name">إيمان</div></div>
-            <div class="day-card" onclick="openTextModal(2)"><div class="day-number">يوم 2</div><div class="day-icon">🕯</div><div class="day-name">أمل</div></div>
-            <div class="day-card" onclick="openTextModal(3)"><div class="day-number">يوم 3</div><div class="day-icon">❤</div><div class="day-name">حب</div></div>
-            <div class="day-card" onclick="openTextModal(4)"><div class="day-number">يوم 4</div><div class="day-icon">🏆</div><div class="day-name">نجاح</div></div>
-            <div class="day-card" onclick="openTextModal(5)"><div class="day-number">يوم 5</div><div class="day-icon">🤗</div><div class="day-name">عناية</div></div>
-            <div class="day-card" onclick="openTextModal(6)"><div class="day-number">يوم 6</div><div class="day-icon">😃</div><div class="day-name">فرحة</div></div>
-            <div class="day-card" onclick="openTextModal(7)"><div class="day-number">يوم 7</div><div class="day-icon">🌍</div><div class="day-name">حياة</div></div>
-            <div class="day-card" onclick="openTextModal(8)"><div class="day-number">يوم 8</div><div class="day-icon">🔐</div><div class="day-name">الحقيقة</div></div>
-            <div class="day-card" onclick="openTextModal(9)"><div class="day-number">يوم 9</div><div class="day-icon">🌈</div><div class="day-name">السعادة</div></div>
-            <div class="day-card" onclick="openTextModal(10)"><div class="day-number">يوم 10</div><div class="day-icon">⏳</div><div class="day-name">الأبدية</div></div>
-            <div class="day-card" onclick="openTextModal(11)"><div class="day-number">يوم 11</div><div class="day-icon">☮</div><div class="day-name">السلام</div></div>
-            <div class="day-card" onclick="openTextModal(12)"><div class="day-number">يوم 12</div><div class="day-icon">⏳</div><div class="day-name">الصبر</div></div>
-            <div class="day-card" onclick="openTextModal(13)"><div class="day-number">يوم 13</div><div class="day-icon">💫</div><div class="day-name">الأحلام</div></div>
-            <div class="day-card" onclick="openTextModal(14)"><div class="day-number">يوم 14</div><div class="day-icon">🔥</div><div class="day-name">العشق</div></div>
-            <div class="day-card" onclick="openTextModal(15)"><div class="day-number">يوم 15</div><div class="day-icon">🌹</div><div class="day-name">الوفاء</div></div>
-            <div class="day-card" onclick="openTextModal(16)"><div class="day-number">يوم 16</div><div class="day-icon">🤝</div><div class="day-name">الثقة</div></div>
-            <div class="day-card" onclick="openTextModal(17)"><div class="day-number">يوم 17</div><div class="day-icon">🌠</div><div class="day-name">القدر</div></div>
-        </section>
+/* --- Visual Effects: Stars --- */
+function initStars() {
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+ 
+    function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
 
-        <!-- Love Post -->
-        <article class="love-post">
-            <div class="post-header">
-                <div class="post-info">
-                    <h3>لا روح قلبي منون......💍M💘</h3>
-                    <span>منذ 17 يوماً • <i class="fas fa-heart"></i></span>
-                </div>
-            </div>
-            <div class="post-content">
-                <p>
-                    في هذه الأيام الجميلة، اكتشفت أن الحب مش له نهاية ولا بداية، بل هو رحلة مستمرة. 
-                    كل يوم معك هو <span class="highlight">بداية جديدة</span>، وكل لحظة معك هي أجمل هدية.
-                    <br><br>
-                    أتمنى أن يكون هذا العام هو أجمل فصول قصتنا، وأن نكمل معاً أجمل أيامنا. 
-                    أنتِ لم تكوني مجرد بداية سنة، بل أنتِ كل السنوات القادمة.
-                </p>
-            </div>
-            <div class="post-actions">
-                <button class="action-btn" onclick="toggleLike(this)"><i class="fas fa-heart"></i><span>بحبك</span></button>
-                <button class="action-btn"><i class="fas fa-comment"></i></button>
-                <button class="action-btn"><i class="fas fa-share"></i></button>
-            </div>
-        </article>
+    const stars = Array.from({ length: window.innerWidth < 600 ? 80 : 150 }, () => ({
+        x: Math.random() * width, y: Math.random() * height,
+        r: Math.random() * 1.5, a: Math.random(),
+        s: Math.random() * 0.15 + 0.05
+    }));
 
-        <!-- Memories Lock Section -->
-        <section class="memories-section">
-            <h2 class="section-title">ألبوم ذكرياتنا يا منتي و احلى ايام حياتي معاكي.... 💖</h2>
-            
-            <div class="memories-lock-wrapper" id="memories-lock">
-                <div class="heart-shape-bg"></div>
-                <div class="lock-card">
-                    <!-- Modified Lock: Heart with MY -->
-                    <div class="my-heart-lock">
-                        <i class="fas fa-heart my-heart-icon"></i>
-                        <span class="my-heart-text">MY</span>
-                    </div>
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "white";
+        stars.forEach(s => {
+            ctx.globalAlpha = s.a;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fill();
+            s.y -= s.s;
+            if(s.y < 0) s.y = height;
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
 
-                    <div class="lock-inputs">
-                        <input type="text" id="album-pass" class="memories-lock-input" placeholder="كلمة السر" autocomplete="off" onkeypress="handleAlbumEnter(event)">
-                        <button class="memories-lock-btn" onclick="checkAlbumPass()">افتحي يا قلبي ....💍M🥹</button>
-                    </div>
-                    <div id="album-error" class="album-error">كلمة السر غلط!</div>
-                </div>
-            </div>
+/* --- Visual Effects: Falling Hearts with M on Login --- */
+function initLoginHearts() {
+    const container = document.getElementById('login-falling-hearts');
+    const count = 15;
+ 
+    for (let i = 0; i < count; i++) {
+        const heartWrapper = document.createElement('div');
+        heartWrapper.className = 'm-heart-fall';
+ 
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-heart';
+        heartWrapper.appendChild(icon);
+ 
+        const span = document.createElement('span');
+        span.innerText = 'M';
+        heartWrapper.appendChild(span);
 
-            <div class="memories-grid" id="memories-grid"></div>
-        </section>
+        heartWrapper.style.left = Math.random() * 100 + '%';
+        heartWrapper.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        heartWrapper.style.animationDelay = Math.random() * 5 + 's';
+ 
+        const size = 1.5 + Math.random() * 1.5;
+        heartWrapper.style.fontSize = size + 'rem';
+ 
+        container.appendChild(heartWrapper);
+    }
+}
 
-        <div class="interaction-area">
-            <button class="big-heart-btn" onclick="explodeHearts(event)">MY</button>
-            <p style="margin-top: 20px; color: var(--primary); font-weight: bold; letter-spacing: 1px;">بحبك يا منون يا قلبي انتي....💍</p>
-        </div>
-    </main>
+/* --- Visual Effects: Background Hearts --- */
+function initBackgroundHearts() {
+    const container = document.getElementById('bg-hearts');
+    const count = window.innerWidth < 600 ? 12 : 25;
+ 
+    for (let i = 0; i < count; i++) {
+        const h = document.createElement('div');
+        h.className = 'heart-particle';
+        h.innerHTML = '<i class="fas fa-heart"></i>';
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+        h.style.animationDuration = (Math.random() * 10 + 12) + 's';
+        h.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(h);
+    }
+}
 
-    <script src="script.js" defer></script>
-</body>
-</html>
+/* --- Visual Effects: Explosion --- */
+function explodeHearts(e) {
+    playSound('love');
+    const count = window.innerWidth < 600 ? 20 : 35;
+ 
+    for(let i=0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = '<i class="fas fa-heart"></i>';
+        heart.style.position = 'fixed';
+        heart.style.color = ['#ff0055', '#ff2e63', '#ffd700', '#fff'][Math.floor(Math.random()*4)];
+        heart.style.fontSize = '1.2rem';
+        heart.style.pointerEvents = 'none';
+        heart.style.zIndex = '9999';
+        heart.style.left = e.clientX + 'px';
+        heart.style.top = e.clientY + 'px';
+        heart.style.transition = 'all 0.8s ease-out';
+        document.body.appendChild(heart);
+ 
+        setTimeout(() => {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = Math.random() * 150 + 50;
+            heart.style.transform = `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(0) rotate(${Math.random()*360}deg)`;
+        }, 10);
+        setTimeout(() => heart.remove(), 800);
+    }
+}
+
+/* --- Interaction Logic --- */
+function toggleLike(btn) {
+    playSound('love');
+    btn.classList.toggle('liked');
+    if(btn.classList.contains('liked')) {
+        const rect = btn.getBoundingClientRect();
+        explodeHearts({ clientX: rect.left + rect.width/2, clientY: rect.top + rect.height/2 });
+    }
+}
+
+function initImagesGrid() {
+    const grid = document.getElementById('memories-grid');
+    CONFIG.images.forEach((src, idx) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.onclick = () => openImageModal(src);
+        card.style.animation = `fadeInGrid 0.5s ease forwards ${idx * 0.1}s`;
+        card.style.opacity = '0'; 
+        const img = document.createElement('img');
+        img.src = src;
+        card.appendChild(img);
+        grid.appendChild(card);
+    });
+}
+
+/* --- Audio Context (Synthesized Sounds) --- */
+let audioCtx;
+function initAudio() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function playSound(type) {
+    initAudio();
+    const osc = audioCtx.createOscillator(); 
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+ 
+    const now = audioCtx.currentTime;
+ 
+    if(type === 'click') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(800, now); 
+        osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
+        gain.gain.setValueAtTime(0.05, now); 
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc.start(); osc.stop(now + 0.1);
+    } else if (type === 'magic') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, now); 
+        osc.frequency.linearRampToValueAtTime(800, now + 0.3);
+        gain.gain.setValueAtTime(0.05, now); 
+        gain.gain.linearRampToValueAtTime(0, now + 0.3);
+        osc.start(); osc.stop(now + 0.3);
+    } else if (type === 'love') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(500, now); 
+        osc.frequency.linearRampToValueAtTime(600, now + 0.2);
+        gain.gain.setValueAtTime(0.1, now); 
+        gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        osc.start(); osc.stop(now + 0.2);
+    }
+}
