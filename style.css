@@ -115,7 +115,39 @@ body {
     font-family: var(--font-romantic);
     font-size: 1.3rem; line-height: 1.8;
     color: #eee; font-weight: 400;
-    white-space: pre-wrap;
+    white-space: pre-wrap; /* Preserve newlines for typewriter */
+    min-height: 100px; /* Space for typing */
+}
+
+/* --- Feature 4: Floating Notes --- */
+.floating-notes-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1; overflow: hidden;
+}
+
+.floating-note {
+    position: absolute;
+    background: rgba(255, 235, 59, 0.9); /* Sticky Note Yellow */
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 2px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    width: 120px;
+    opacity: 0.6;
+    transform: rotate(-10deg);
+    animation: floatNoteUp linear infinite;
+}
+
+.floating-note.blue { background: rgba(68, 138, 255, 0.9); color: #fff; }
+.floating-note.pink { background: rgba(233, 30, 99, 0.9); color: #fff; }
+
+@keyframes floatNoteUp {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
 }
 
 /* --- Login Overlay --- */
@@ -276,6 +308,56 @@ body {
 
 header { text-align: center; margin-bottom: 40px; padding-top: 30px; }
 
+/* --- Feature 5: Relationship Progress Bar --- */
+.love-progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progress-label {
+    font-size: 0.9rem;
+    color: #ddd;
+    font-weight: 600;
+}
+
+.progress-track {
+    width: 150px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 100%; /* 100% Love */
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--primary-glow);
+    animation: progressPulse 2s infinite;
+}
+
+@keyframes progressPulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; box-shadow: 0 0 15px var(--accent); }
+}
+
+.progress-value {
+    font-size: 0.9rem;
+    color: var(--gold);
+    font-weight: bold;
+}
+
 h1 { 
     font-family: var(--font-romantic); font-size: 2.5rem; line-height: 1.3;
     background: linear-gradient(to bottom, #fff, #ffd1d1); 
@@ -303,6 +385,31 @@ h1 {
  
 audio { width: 100%; height: 35px; border-radius: 20px; outline: none; filter: invert(1) hue-rotate(180deg) saturate(1.2); opacity: 0.9; }
 audio:hover { opacity: 1; }
+
+/* --- Feature 6: Random Quote Button --- */
+.quote-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.quote-btn {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+    font-family: var(--font-main);
+    font-weight: 600;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.quote-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(37, 117, 252, 0.6);
+}
 
 /* --- Days Grid --- */
 .days-grid { 
@@ -507,4 +614,11 @@ audio:hover { opacity: 1; }
     .post-content p { font-size: 1.05rem; }
     .post-info h3 { font-size: 1.1rem; }
     .modal-close-img { top: 10px; right: 10px; font-size: 2.5rem; }
+    
+    /* Adjustments for new features on mobile */
+    .love-progress-bar {
+        width: 95%; flex-direction: column; gap: 5px;
+    }
+    .progress-track { width: 100%; }
+    .floating-note { display: none; /* Hide notes on very small screens to avoid clutter */ }
 }

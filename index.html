@@ -16,6 +16,8 @@
     <div class="noise-overlay"></div>
     <canvas id="stars-canvas" class="stars-canvas"></canvas>
     <div class="floating-hearts-container" id="bg-hearts"></div>
+    <!-- Added Container for Floating Notes -->
+    <div class="floating-notes-container" id="floating-notes-container"></div>
 
     <!-- Login Screen (Overlay) -->
     <div id="gift-overlay">
@@ -48,6 +50,7 @@
         <div class="text-modal-content">
             <span class="text-modal-close" onclick="closeTextModal()">×</span>
             <h3 class="text-modal-title" id="text-modal-title"></h3>
+            <!-- Text will be typed here -->
             <p class="text-modal-text" id="text-modal-message"></p>
         </div>
     </div>
@@ -55,6 +58,15 @@
     <!-- Main Content -->
     <main id="main-content">
         <header>
+            <!-- Feature 5: Relationship Progress Bar -->
+            <div class="love-progress-bar">
+                <div class="progress-label">مشوار حبنا</div>
+                <div class="progress-track">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-value">100%</div>
+            </div>
+
             <h1>يا روح قلبي انتي كل سنه وانتي حب قلبي 2026</h1>
             <p class="subtitle">قلبي و روحي و دنيتي كله حبيبت قلبي منون.....💘💍</p>
         </header>
@@ -69,7 +81,12 @@
             <p style="margin-top:12px; font-size:0.8rem; color:rgba(255,255,255,0.5);">حبيب قلبي منون..... 🎧</p>
         </section>
 
-        <!-- 28 Days Grid (Updated) -->
+        <!-- Feature 6: Random Quote Button -->
+        <div class="quote-section">
+            <button class="quote-btn" onclick="showRandomQuote()">اقلك على حاجه يا منتي دوسي هنا 😂</button>
+        </div>
+
+        <!-- 28 Days Grid -->
         <section class="days-grid">
             <div class="day-card" onclick="openTextModal(1)"><div class="day-number">يوم 1</div><div class="day-icon">🤲</div><div class="day-name">إيمان</div></div>
             <div class="day-card" onclick="openTextModal(2)"><div class="day-number">يوم 2</div><div class="day-icon">🕯</div><div class="day-name">أمل</div></div>
@@ -89,7 +106,7 @@
             <div class="day-card" onclick="openTextModal(16)"><div class="day-number">يوم 16</div><div class="day-icon">🤝</div><div class="day-name">الثقة</div></div>
             <div class="day-card" onclick="openTextModal(17)"><div class="day-number">يوم 17</div><div class="day-icon">🌠</div><div class="day-name">القدر</div></div>
             
-            <!-- الأيام الجديدة من 18 إلى 28 -->
+            <!-- الأيام من 18 إلى 28 -->
             <div class="day-card" onclick="openTextModal(18)"><div class="day-number">يوم 18</div><div class="day-icon">🔥</div><div class="day-name">الدفء</div></div>
             <div class="day-card" onclick="openTextModal(19)"><div class="day-number">يوم 19</div><div class="day-icon">🤝</div><div class="day-name">الصداقة</div></div>
             <div class="day-card" onclick="openTextModal(20)"><div class="day-number">يوم 20</div><div class="day-icon">💖</div><div class="day-name">التضحية</div></div>
@@ -134,7 +151,6 @@
             <div class="memories-lock-wrapper" id="memories-lock">
                 <div class="heart-shape-bg"></div>
                 <div class="lock-card">
-                    <!-- Modified Lock: Heart with MY -->
                     <div class="my-heart-lock">
                         <i class="fas fa-heart my-heart-icon"></i>
                         <span class="my-heart-text">MY</span>

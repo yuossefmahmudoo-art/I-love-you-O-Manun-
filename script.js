@@ -2,7 +2,7 @@
 const CONFIG = {
     loginPass: '3/11/2004',
     albumPass: 'I love you',
-    // الصور المحدثة (4 صور)
+    // الصور المحددة (4 صور فقط)
     images: [
         "https://i.postimg.cc/C5CpFVYP/01K399MW4936BB4TJPP53PHVSG.jpg",
         "https://i.postimg.cc/VLBzwXkF/01K399D6KJCXSGPV7TZTHSHV8T.jpg",
@@ -10,6 +10,22 @@ const CONFIG = {
         "https://i.postimg.cc/90Hj5f3J/01K39A2MG2C6PGM7YQS3RX6CGN.jpg"
     ]
 };
+
+// Random Quotes List (Feature 6)
+const loveQuotes = [
+    "أنتِ أجمل ما حدث في حياتي..",
+    "قلبي حرف واحد بس: M.",
+    "لو قدرت أختار حاجة تانية غيرك.. هختاركك مرة تانية.",
+    "بحبك من قلبي لآخر دم.",
+    "ضحكتك دواء لكل وجعي.",
+    "أنتِ بيتي وسماي وكل دنيتي.",
+    "أعشق طيبة قلبك.",
+    "ربنا يحفظك ليا من كل شر.",
+    "أنتِ النور اللي حيي قلبي.",
+    "مش بس بحبك.. أنا أعيش بيك.",
+    "كل يوم بحبك أكتر من أمس.",
+    "أنتِ هدية ربنا الكبرى ليا."
+];
 
 const daysMessages = {
     1: { title: "اليوم الأول: الإيمان", text: "يا أول يوم، أتمنى لك إيمان بلا شك، وقلب رضي عن ربه وعن الدنيا. ربنا يخليكي ليا طول العمر." },
@@ -50,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initBackgroundHearts();
     initImagesGrid();
     initLoginHearts();
+    initFloatingNotes(); // Feature 4 Init
 });
 
 /* --- Password System --- */
@@ -127,19 +144,53 @@ function closeImageModal() { imgModal.classList.remove('show'); }
  
 imgModal.addEventListener('click', (e) => { if (e.target === imgModal) closeImageModal(); });
 
+// Feature 2: Typewriter Effect Function
+function typeWriter(text, element, speed = 30) {
+    element.innerHTML = "";
+    let i = 0;
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    type();
+}
+
 function openTextModal(day) {
     playSound('magic');
     document.getElementById('text-modal-title').innerText = daysMessages[day].title;
-    document.getElementById('text-modal-message').innerText = daysMessages[day].text;
+    const messageElement = document.getElementById('text-modal-message');
+    
     textModal.style.display = 'flex';
     setTimeout(() => textModal.classList.add('show'), 10);
+    
+    // Use Typewriter Effect
+    typeWriter(daysMessages[day].text, messageElement);
 }
+
 function closeTextModal() {
     playSound('click');
     textModal.classList.remove('show');
     setTimeout(() => textModal.style.display = 'none', 300);
 }
 textModal.addEventListener('click', (e) => { if (e.target === textModal) closeTextModal(); });
+
+// Feature 6: Random Quote Function
+function showRandomQuote() {
+    playSound('click');
+    const randomIndex = Math.floor(Math.random() * loveQuotes.length);
+    const randomQuote = loveQuotes[randomIndex];
+    
+    document.getElementById('text-modal-title').innerText = "رسالة خاصة لك ❤️";
+    const messageElement = document.getElementById('text-modal-message');
+    
+    textModal.style.display = 'flex';
+    setTimeout(() => textModal.classList.add('show'), 10);
+    
+    typeWriter(randomQuote, messageElement);
+}
 
 /* --- Visual Effects: Stars --- */
 function initStars() {
@@ -198,6 +249,26 @@ function initLoginHearts() {
         heartWrapper.style.fontSize = size + 'rem';
  
         container.appendChild(heartWrapper);
+    }
+}
+
+/* --- Feature 4: Floating Notes --- */
+function initFloatingNotes() {
+    const container = document.getElementById('floating-notes-container');
+    const notesContent = ["أنتِ الأحلى", "بحبك", "M forever", "أنتي كل حاجة", "قلبي"];
+    const colors = ['floating-note', 'floating-note blue', 'floating-note pink'];
+    
+    for (let i = 0; i < 6; i++) {
+        const note = document.createElement('div');
+        note.className = colors[Math.floor(Math.random() * colors.length)];
+        note.innerText = notesContent[i % notesContent.length];
+        
+        note.style.left = Math.random() * 90 + '%'; // Avoid extremes
+        note.style.fontSize = (0.8 + Math.random() * 0.4) + 'rem';
+        note.style.animationDuration = (15 + Math.random() * 10) + 's';
+        note.style.animationDelay = Math.random() * 5 + 's';
+        
+        container.appendChild(note);
     }
 }
 
