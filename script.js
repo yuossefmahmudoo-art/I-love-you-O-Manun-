@@ -2,19 +2,12 @@
 const CONFIG = {
     loginPass: '3/11/2004',
     albumPass: 'I love you',
-    // 9 Placeholder Images (Since Google Drive links don't work in code)
-    // استبدل الروابط القادمة بهذه الروابط التجريبية لتعملين مؤقتاً.
-    // Replace these links with your new direct image links (from Imgur, Catbox, etc.)
+    // الصور المحدثة (4 صور)
     images: [
-        "https://picsum.photos/id/237/400x400.jpg", // استبدل بصورة 1
-        "https://picsum.photos/id/339/400x400.jpg", // استبدل بصورة 2
-        "https://picsum.photos/id/442/400x400.jpg", // استبدل بصورة 3
-        "https://picsum.photos/id/555/400x400.jpg", // استبدل بصورة 4
-        "https://picsum.photos/id/666/400x400.jpg", // استبدل بصورة 5
-        "https://picsum.photos/id/777/400x400.jpg", // استبدل بصورة 6
-        "https://picsum.photos/id/888/400x400.jpg", // استبدل بصورة 7
-        "https://picsum.photos/id/999/400x400.jpg", // استبدل بصورة 8
-        "https://picsum.photos/id/101/400x400.jpg"  // استبدل بصورة 9
+        "https://i.postimg.cc/C5CpFVYP/01K399MW4936BB4TJPP53PHVSG.jpg",
+        "https://i.postimg.cc/VLBzwXkF/01K399D6KJCXSGPV7TZTHSHV8T.jpg",
+        "https://i.postimg.cc/4yvRJTsR/01K111R8AHJS5G8S9ZY6V23MPX.jpg",
+        "https://i.postimg.cc/90Hj5f3J/01K39A2MG2C6PGM7YQS3RX6CGN.jpg"
     ]
 };
 
